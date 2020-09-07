@@ -8,7 +8,7 @@ import AuthorDetails from './AuthorDetails';
 
 const Authors = () => {
 
-    const { authors, auhtorIdSelected } = useSelector(state => state.authors);
+    const { authors, authors_id_details } = useSelector(state => state.authors);
 
     const dispatch = useDispatch();
 
@@ -33,7 +33,7 @@ const Authors = () => {
                                 <Button onClick={() => dispatch(getAuthorDetails(author.id))}>Details</Button>
                                 <Button onClick={() => redirectEditAuthor(author)}>Editer</Button>
                                 <Button onClick={() => dispatch(deleteAuthor(author.id))}>Supprimer</Button>
-                                {author.id === auhtorIdSelected && <AuthorDetails key={i} author={author}></AuthorDetails>}
+                                {authors_id_details.includes(author.id) && <AuthorDetails key={i} author={author}></AuthorDetails>}
                             </Author>
                         )
                     })}

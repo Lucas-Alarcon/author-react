@@ -3,7 +3,7 @@ import { fetchAddAuthor, fetchEditAuthor, fetchDeleteAuthor } from '../actions/a
 
 let stateInit = {
     authors: [],
-    auhtorIdSelected: null,
+    authors_id_details: [],
     id: "",
     name: "",
     bio: "",
@@ -24,9 +24,18 @@ const reducer = (state = stateInit, action = {}) => {
             }
 
         case GET_AUTHOR_DETAILS:
+
+            if (state.authors_id_details.includes(action.author_id)) {
+                const authors_display = state.authors_id_details.filter(author_id => author_id !== action.author_id);
+                return {
+                    ...state,
+                    authors_id_details: authors_display
+                }
+            }
+
             return {
                 ...state,
-                auhtorIdSelected: action.author_id
+                authors_id_details: [...state.authors_id_details, action.author_id]
             }
 
         case INPUT_CHANGE:
@@ -79,12 +88,12 @@ const reducer = (state = stateInit, action = {}) => {
 
             return {
                 ...state,
-                id: edit_author.id, 
-                name: edit_author.name, 
-                bio: edit_author.bio, 
-                shop_name: edit_author.shop_name, 
+                id: edit_author.id,
+                name: edit_author.name,
+                bio: edit_author.bio,
+                shop_name: edit_author.shop_name,
                 book: '',
-                books: edit_author.books, 
+                books: edit_author.books,
                 message: ""
             }
 
@@ -103,11 +112,11 @@ const reducer = (state = stateInit, action = {}) => {
             }
 
         case DELETE_AUTHOR:
-            const author_delete = state.authors.filter(author => author.id !== action.author_id);
+            const authors_keep = state.authors.filter(author => author.id !== action.author_id);
             fetchDeleteAuthor(action.author_id)
             return {
                 ...state,
-                authors: author_delete
+                authors: authors_keep
             }
 
         case CLEAN_AUTHOR:

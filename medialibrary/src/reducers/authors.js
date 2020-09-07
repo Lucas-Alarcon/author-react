@@ -1,9 +1,10 @@
-import { INIT_AUTHORS, GET_AUTHOR_DETAILS, ADD_AUTHOR, INPUT_CHANGE, ADD_BOOK, DELETE_AUTHOR } from '../constants/actions';
-import { fetchAddAuthor, fetchDeleteAuthor } from '../actions/actions-types';
+import { INIT_AUTHORS, GET_AUTHOR_DETAILS, GET_EDIT_AUTHOR, ADD_AUTHOR, EDIT_AUTHOR, ADD_BOOK, INPUT_CHANGE, DELETE_AUTHOR } from '../constants/actions';
+import { fetchAddAuthor, fetchEditAuthor, fetchDeleteAuthor } from '../actions/actions-types';
 
 let stateInit = {
     authors: [],
     auhtorIdSelected: null,
+    id: "",
     name: "",
     bio: "",
     shop_name: "",
@@ -19,13 +20,13 @@ const reducer = (state = stateInit, action = {}) => {
         case INIT_AUTHORS:
             return {
                 ...state,
-                authors: action.payload
+                authors: action.authors
             }
 
         case GET_AUTHOR_DETAILS:
             return {
                 ...state,
-                auhtorIdSelected: action.payload
+                auhtorIdSelected: action.author_id
             }
 
         case INPUT_CHANGE:
@@ -37,41 +38,66 @@ const reducer = (state = stateInit, action = {}) => {
             }
 
         case ADD_AUTHOR:
-            const { name, bio, shop_name } = action;
+            const author = { id: String(Date.now()), name: state.name, bio: state.bio, shop_name: state.shop_name, books: state.books }
 
-            const author =  { id: String(Date.now()), name: name, bio: bio, shop_name: shop_name, books: state.books }
-
-            if (name.trim() === '' || shop_name.trim() === '' || bio.trim() === '')
+            if (state.name.trim() === '' || state.shop_name.trim() === '' || state.bio.trim() === '')
                 return {
                     ...state,
-                    message: "Un des champs est vide"
+                    message: "Erreur un champ est vide"
                 }
             else {
                 fetchAddAuthor(author)
             }
 
             return {
+                ...state,
                 message: `Autheur ${state.name} ajouté !`,
                 name: '', bio: '', shop_name: '', books: []
             }
 
-        case ADD_BOOK:
-            if (action.payload.trim() === '')
-            return {
-                ...state,
-                message: "Le champ book est vide"
+        case EDIT_AUTHOR:
+
+            const author_edit = { id: state.id, name: state.name, bio: state.bio, shop_name: state.shop_name, books: state.books }
+
+            if (state.name.trim() === '' || state.shop_name.trim() === '' || state.bio.trim() === '')
+                return {
+                    ...state,
+                    message: "Erreur un champ est vide"
+                }
+            else {
+                fetchEditAuthor(author_edit)
             }
 
             return {
                 ...state,
-                books: [...state.books, action.payload],
-                message: `Livre ${action.payload} ajouté !`,
+                message: `Autheur ${state.name} édité !`
+            }
+
+        case GET_EDIT_AUTHOR:
+            const { edit_author } = action;
+
+            return {
+                ...state,
+                id: edit_author.id, name: edit_author.name, bio: edit_author.bio, shop_name: edit_author.shop_name, books: edit_author.books
+            }
+
+        case ADD_BOOK:
+            if (action.book.trim() === '')
+                return {
+                    ...state,
+                    message: "Le champ book est vide"
+                }
+
+            return {
+                ...state,
+                books: [...state.books, action.book],
+                message: `Livre ${action.book} ajouté !`,
                 book: ''
             }
 
         case DELETE_AUTHOR:
-            const author_delete = state.authors.filter(author => author.id !== action.payload);
-            fetchDeleteAuthor(action.payload)
+            const author_delete = state.authors.filter(author => author.id !== action.author_id);
+            fetchDeleteAuthor(action.author_id)
             return {
                 ...state,
                 authors: author_delete

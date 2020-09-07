@@ -1,14 +1,14 @@
-import { INIT_AUTHORS, GET_AUTHOR_DETAILS, ADD_AUTHOR, ADD_BOOK, INPUT_CHANGE, DELETE_AUTHOR } from '../constants/actions';
+import { INIT_AUTHORS, GET_AUTHOR_DETAILS, GET_EDIT_AUTHOR, ADD_AUTHOR, EDIT_AUTHOR, ADD_BOOK, INPUT_CHANGE, DELETE_AUTHOR } from '../constants/actions';
 
-export const initAuthors = payload => {
+export const initAuthors = authors => {
     return {
-        type: INIT_AUTHORS, payload
+        type: INIT_AUTHORS, authors
     }
 };
 
-export const getAuthorDetails = payload => {
+export const getAuthorDetails = author_id => {
     return {
-        type: GET_AUTHOR_DETAILS, payload
+        type: GET_AUTHOR_DETAILS, author_id
     }
 };
 
@@ -18,23 +18,36 @@ export const inputChange = (input, value) => {
     }
 };
 
-export const addAuthor = (name, bio, shop_name) => {
+export const addAuthor = () => {
     return {
-        type: ADD_AUTHOR, name: name, bio: bio, shop_name: shop_name
+        type: ADD_AUTHOR
     }
 };
 
-export const addBook = payload => {
+export const editAuthor = () => {
     return {
-        type: ADD_BOOK, payload
+        type: EDIT_AUTHOR
     }
 };
 
-export const deleteAuthor = payload => {
+export const getEditAuthor = edit_author => {
     return {
-        type: DELETE_AUTHOR, payload
+        type: GET_EDIT_AUTHOR, edit_author
     }
 };
+
+export const addBook = book => {
+    return {
+        type: ADD_BOOK, book
+    }
+};
+
+export const deleteAuthor = author_id => {
+    return {
+        type: DELETE_AUTHOR, author_id
+    }
+};
+
 
 export const fetchAddAuthor = async (author) => {
 
@@ -45,6 +58,18 @@ export const fetchAddAuthor = async (author) => {
     }
 
     const response = await fetch("http://localhost:3000/add", options);
+
+}
+
+export const fetchEditAuthor = async (author) => {
+
+    const options = {
+        method: 'PUT',
+        body: JSON.stringify(author),
+        headers: { "Content-Type": "application/json" }
+    }
+
+    const response = await fetch("http://localhost:3000/author/" + author.id, options);
 
 }
 

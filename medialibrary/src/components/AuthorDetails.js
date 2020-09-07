@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from "styled-components";
 
 const AuthorDetails = (props) => {
 
@@ -7,12 +8,17 @@ const AuthorDetails = (props) => {
     return (
         <>
             <div>
-                <p className="name">Name : {author.name}</p>
-                <p className="bio">Bio : {author.bio}</p>
-                <p className="shop">Shop : {author.shop_name}</p>
-                <p className="books">Books : {author.books.toString()}</p>
+                <Detail className="name">Name : {author.name}</Detail>
+                <Detail className="bio">Bio : {author.bio}</Detail>
+                <Detail className="shop">Shop : {author.shop_name}</Detail>
+                <Detail className="books">Books : {author.books.toString()}</Detail>
             </div>
         </>
     )
 }
+
+const Detail = styled.p`
+    margin-top: 15px;
+`;
+
 export default AuthorDetails;

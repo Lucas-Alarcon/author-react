@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { editAuthor, inputChange, addBook } from '../actions/actions-types';
 import styled from "styled-components";
-import { addAuthor, inputChange, addBook } from '../actions/actions-types';
 
-const AddAuthor = () => {
+const EditAuthor = () => {
 
     const { name, bio, shop_name, book, books, message } = useSelector(state => state.authors);
     const dispatch = useDispatch()
@@ -11,12 +11,12 @@ const AddAuthor = () => {
     const handleSubmit = e => {
         e.preventDefault();
 
-        dispatch(addAuthor(name, bio, shop_name))
+        dispatch(editAuthor())
     }
 
     return (
         <Form>
-            <Titre>Ajouter un auteur</Titre>
+            <h2>Editer un auteur</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="name">Name :</label>
@@ -38,7 +38,7 @@ const AddAuthor = () => {
                     {books.map((book, i) => {
                         return (<li key={i}>{book}</li>)
                     })}
-                    <Message>{message}</Message>
+                    <p>{message}</p>
                     <Button type="button" onClick={() => dispatch(addBook(book))}>Ajouté un livre</Button>
                 </div>
                 <Submit type="submit" value="Valider" />
@@ -48,17 +48,14 @@ const AddAuthor = () => {
 }
 
 const Form = styled.div`
-    margin: 40px;
-`;
-
-const Titre = styled.h2`
-    margin-bottom: 30px;
+    padding-left: 50px;
+    padding-right: 50px;
 `;
 
 const Input = styled.input`
     width: 100%;
     padding: 12px 20px;
-    margin: 10px 0 25px;
+    margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -68,7 +65,7 @@ const Input = styled.input`
 const Select = styled.select`
     width: 100%;
     padding: 12px 20px;
-    margin: 10px 0 25px;
+    margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -85,10 +82,6 @@ const Button = styled.button`
     cursor: pointer;
 `;
 
-const Message = styled.p`
-    margin: 25px 0 25px;
-`;
-
 const Submit = styled.input`
     width: 100%;
     background-color: black;
@@ -100,4 +93,4 @@ const Submit = styled.input`
     cursor: pointer;
 `;
 
-export default AddAuthor;
+export default EditAuthor;

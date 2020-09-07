@@ -1,9 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import AuthorDetails from './AuthorDetails';
 import { useDispatch } from 'react-redux';
-import { getAuthorDetails, deleteAuthor } from '../actions/actions-types';
+import { useHistory } from 'react-router-dom';
 import styled from "styled-components";
+import { getAuthorDetails, getEditAuthor, deleteAuthor } from '../actions/actions-types';
+import AuthorDetails from './AuthorDetails';
 
 const Authors = () => {
 
@@ -11,24 +12,32 @@ const Authors = () => {
 
     const dispatch = useDispatch();
 
+    const history = useHistory();
+
+    const redirectEditAuthor = (author) => {
+        dispatch(getEditAuthor(author));
+        let path = `/author/edit/${author.id}`;
+        history.push(path);
+
+    };
+
     return (
         <>
             <Container>
-                <h2>Liste des autheurs</h2>
-                <div>
-                    <Ul>
-                        {authors.map((author, i) => {
-                            return (
-                                <Li key={i}>
-                                    <p>{author.name}</p>
-                                    <button onClick={() => dispatch(getAuthorDetails(author.id))}>Details</button>
-                                    {author.id === auhtorIdSelected && <AuthorDetails key={i} author={author}></AuthorDetails>}
-                                    <button onClick={() => dispatch(deleteAuthor(author.id))}>Supprimer</button>
-                                </Li>
-                            )
-                        })}
-                    </Ul>
-                </div>
+                <Titre>Liste des autheurs</Titre>
+                <Row>
+                    {authors.map((author, i) => {
+                        return (
+                            <Author key={i}>
+                                <h3>{author.name}</h3>
+                                <Button onClick={() => dispatch(getAuthorDetails(author.id))}>Details</Button>
+                                <Button onClick={() => redirectEditAuthor(author)}>Editer</Button>
+                                <Button onClick={() => dispatch(deleteAuthor(author.id))}>Supprimer</Button>
+                                {author.id === auhtorIdSelected && <AuthorDetails key={i} author={author}></AuthorDetails>}
+                            </Author>
+                        )
+                    })}
+                </Row>
             </Container>
         </>
     )
@@ -36,20 +45,38 @@ const Authors = () => {
 }
 
 const Container = styled.div`
-    padding-left: 50px;
-    padding-right: 50px;
+    margin: 40px;
 `;
 
-const Ul = styled.ul`
+const Row = styled.div`
     display: flex;
-    justify-content: flex-start;
     flex-wrap: wrap;
 `;
 
-const Li = styled.li`
-    padding-left: 50px;
-    padding-right: 50px;
-    list-style:none;
+const Titre = styled.h2`
+    margin-bottom: 20px;
 `;
+
+const Author = styled.article`
+    width: 400px;
+    background-color:#222;
+    color: white;
+    box-shadow: 0px 5px 20px #555;
+    text-align:center; 
+    padding: 15px 20px;
+    margin: 15px 20px; 
+    box-sizing: border-box;
+`;
+
+const Button = styled.a`
+    background-color: #e7e7e7;
+    color: black;
+    padding: 15px 32px;
+    margin-top: 20px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+`;
+
 
 export default Authors;

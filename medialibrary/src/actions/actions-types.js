@@ -1,4 +1,4 @@
-import { INIT_AUTHORS, GET_AUTHOR_DETAILS, GET_EDIT_AUTHOR, ADD_AUTHOR, EDIT_AUTHOR, ADD_BOOK, INPUT_CHANGE, DELETE_AUTHOR } from '../constants/actions';
+import { INIT_AUTHORS, GET_AUTHOR_DETAILS, GET_EDIT_AUTHOR, ADD_AUTHOR, EDIT_AUTHOR, ADD_BOOK, INPUT_CHANGE, DELETE_AUTHOR, CLEAN_AUTHOR } from '../constants/actions';
 
 export const initAuthors = authors => {
     return {
@@ -47,6 +47,24 @@ export const deleteAuthor = author_id => {
         type: DELETE_AUTHOR, author_id
     }
 };
+
+export const cleanAuthor = () => {
+    return {
+        type: CLEAN_AUTHOR
+    }
+};
+
+
+export const fetchData = async (dispatch) => {
+
+    fetch("http://localhost:3000/authors")
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+        })
+        .then(data => dispatch(initAuthors(data)))
+}
 
 
 export const fetchAddAuthor = async (author) => {

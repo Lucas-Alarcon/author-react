@@ -1,19 +1,23 @@
 import React from 'react';
 import { withRouter } from "react-router";
+import { useDispatch } from 'react-redux';
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { cleanAuthor } from '../actions/actions-types';
 
 const NavLocation = () => {
+
+    const dispatch = useDispatch()
 
     return (
 
         <NavBar role="navigation">
             <Menu>
                 <NavItem>
-                    <NavLink className="nav-link" to="/">Home</NavLink>
+                    <NavLink to="/">Home</NavLink>
                 </NavItem>
                 <NavItem className="nav-item">
-                    <NavLink className="nav-link" to="/author/add">Add author</NavLink>
+                    <NavLink to="/author/add" onClick={() => dispatch(cleanAuthor())}>Add author</NavLink>
                 </NavItem>
             </Menu>
         </NavBar>

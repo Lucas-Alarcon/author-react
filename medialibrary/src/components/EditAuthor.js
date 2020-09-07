@@ -16,7 +16,7 @@ const EditAuthor = () => {
 
     return (
         <Form>
-            <h2>Editer un auteur</h2>
+            <Titre>Editer un auteur</Titre>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="name">Name :</label>
@@ -38,7 +38,7 @@ const EditAuthor = () => {
                     {books.map((book, i) => {
                         return (<li key={i}>{book}</li>)
                     })}
-                    <p>{message}</p>
+                    <Message>{message}</Message>
                     <Button type="button" onClick={() => dispatch(addBook(book))}>Ajouté un livre</Button>
                 </div>
                 <Submit type="submit" value="Valider" />
@@ -48,14 +48,17 @@ const EditAuthor = () => {
 }
 
 const Form = styled.div`
-    padding-left: 50px;
-    padding-right: 50px;
+    margin: 40px;
+`;
+
+const Titre = styled.h2`
+    margin-bottom: 30px;
 `;
 
 const Input = styled.input`
     width: 100%;
     padding: 12px 20px;
-    margin: 8px 0;
+    margin: 10px 0 25px;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -65,7 +68,7 @@ const Input = styled.input`
 const Select = styled.select`
     width: 100%;
     padding: 12px 20px;
-    margin: 8px 0;
+    margin: 10px 0 25px;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -80,6 +83,10 @@ const Button = styled.button`
     border: none;
     border-radius: 4px;
     cursor: pointer;
+`;
+
+const Message = styled.p`
+    margin: 25px 0 25px;
 `;
 
 const Submit = styled.input`

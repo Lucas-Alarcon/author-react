@@ -26,7 +26,7 @@ const Authors = () => {
             <Container>
                 <Titre>Liste des autheurs</Titre>
                 <Row>
-                    {authors.map((author, i) => {
+                    {authors.length > 0 && authors.map((author, i) => {
                         return (
                             <Author key={i}>
                                 <h3>{author.name}</h3>

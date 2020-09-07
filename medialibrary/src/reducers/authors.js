@@ -1,4 +1,4 @@
-import { INIT_AUTHORS, GET_AUTHOR_DETAILS, GET_EDIT_AUTHOR, ADD_AUTHOR, EDIT_AUTHOR, ADD_BOOK, INPUT_CHANGE, DELETE_AUTHOR } from '../constants/actions';
+import { INIT_AUTHORS, GET_AUTHOR_DETAILS, GET_EDIT_AUTHOR, ADD_AUTHOR, EDIT_AUTHOR, ADD_BOOK, INPUT_CHANGE, DELETE_AUTHOR, CLEAN_AUTHOR } from '../constants/actions';
 import { fetchAddAuthor, fetchEditAuthor, fetchDeleteAuthor } from '../actions/actions-types';
 
 let stateInit = {
@@ -43,7 +43,7 @@ const reducer = (state = stateInit, action = {}) => {
             if (state.name.trim() === '' || state.shop_name.trim() === '' || state.bio.trim() === '')
                 return {
                     ...state,
-                    message: "Erreur un champ est vide"
+                    message: "Erreur un champ est vide !"
                 }
             else {
                 fetchAddAuthor(author)
@@ -52,6 +52,7 @@ const reducer = (state = stateInit, action = {}) => {
             return {
                 ...state,
                 message: `Autheur ${state.name} ajouté !`,
+                authors: [...state.authors, author],
                 name: '', bio: '', shop_name: '', books: []
             }
 
@@ -62,7 +63,7 @@ const reducer = (state = stateInit, action = {}) => {
             if (state.name.trim() === '' || state.shop_name.trim() === '' || state.bio.trim() === '')
                 return {
                     ...state,
-                    message: "Erreur un champ est vide"
+                    message: "Erreur un champ est vide !"
                 }
             else {
                 fetchEditAuthor(author_edit)
@@ -78,7 +79,13 @@ const reducer = (state = stateInit, action = {}) => {
 
             return {
                 ...state,
-                id: edit_author.id, name: edit_author.name, bio: edit_author.bio, shop_name: edit_author.shop_name, books: edit_author.books
+                id: edit_author.id, 
+                name: edit_author.name, 
+                bio: edit_author.bio, 
+                shop_name: edit_author.shop_name, 
+                book: '',
+                books: edit_author.books, 
+                message: ""
             }
 
         case ADD_BOOK:
@@ -101,6 +108,18 @@ const reducer = (state = stateInit, action = {}) => {
             return {
                 ...state,
                 authors: author_delete
+            }
+
+        case CLEAN_AUTHOR:
+            return {
+                ...state,
+                id: "",
+                name: "",
+                bio: "",
+                shop_name: "",
+                book: "",
+                books: [],
+                message: ""
             }
 
         default:

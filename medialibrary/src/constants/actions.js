@@ -6,3 +6,4 @@ export const EDIT_AUTHOR = 'EDIT_AUTHOR';
 export const ADD_BOOK = 'ADD_BOOK';
 export const INPUT_CHANGE = 'INPUT_CHANGE';
 export const DELETE_AUTHOR = 'DELETE_AUTHOR';
+export const CLEAN_AUTHOR = 'CLEAN_AUTHOR';

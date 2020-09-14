@@ -5,8 +5,8 @@ const Home = () => {
 
   return (
     <>
-      <main role="main">
-          <Authors />
+      <main>
+        <Authors />
       </main>
     </>
   )

@@ -80,7 +80,12 @@ const reducer = (state = stateInit, action = {}) => {
 
             return {
                 ...state,
-                message: `Autheur ${state.name} édité !`
+                message: `Autheur ${state.name} édité !`,
+                authors: state.authors.map(author => {
+                    if ( author.id !== state.id ) return author;
+                 
+                    return author_edit;
+                 })
             }
 
         case GET_EDIT_AUTHOR:
